@@ -1,0 +1,33 @@
+# Android Studio / IntelliJ
+*.iml
+.idea/
+.gradle/
+local.properties
+
+# Android build
+/build/
+app/build/
+captures/
+.externalNativeBuild/
+.cxx/
+
+# Python
+.venv/
+backend/.venv/
+__pycache__/
+*.py[cod]
+
+# Environment files
+.env
+backend/.env
+
+# Logs
+*.log
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Temporary / generated files
+.artifacts/
+tmp_*.py

@@ -1,0 +1,20 @@
+<resources>
+    <string name="app_name">FoodNow</string>
+    <string name="dish1">Dish1</string>
+    <string name="slogan">Instant Food Delivery</string>
+    <string name="email">Email</string>
+    <string name="full_name">Full Name</string>
+    <string name="forgot">Forgot?</string>
+    <string name="forgot_password_title">Forgot Password</string>
+    <string name="send">Send</string>
+    <string name="reset_instruction">Enter your email to reset password</string>
+    <string name="password">Password</string>
+    <string name="confirm_password">Confirm Password</string>
+    <string name="sign_in">Sign In</string>
+    <string name="sign_up">Sign Up</string>
+    <string name="sign_in_with_facebook">Sign In with Facebook</string>
+    <string name="sign_up_with_facebook">Sign Up with Facebook</string>
+    <string name="sign_in_with_google">Sign In with Google</string>
+    <string name="sign_up_with_google">Sign Up with Google</string>
+    <string name="menu">Menu</string>
+</resources>

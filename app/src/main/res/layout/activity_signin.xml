@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".SigninActivity">
+
+    <ImageView
+        android:id="@+id/ivDish1"
+        android:layout_width="220dp"
+        android:layout_height="160dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:contentDescription="@string/dish1"
+        android:scaleType="fitEnd"
+        android:src="@drawable/dish" />
+
+    <TextView
+        android:id="@+id/tvAppName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/ivDish1"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="-20dp"
+        android:text="@string/app_name"
+        android:textColor="@color/colorPrimary"
+        android:textSize="40sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/tvAppSlogan"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tvAppName"
+        android:layout_centerHorizontal="true"
+        android:text="@string/slogan"
+        android:textColor="@color/colorPrimary"
+        android:textSize="16sp" />
+
+    <EditText
+        android:id="@+id/edtEmail"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tvAppSlogan"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:autofillHints="emailAddress"
+        android:background="@android:color/transparent"
+        android:drawableStart="@drawable/icon_email"
+        android:drawablePadding="16dp"
+        android:hint="@string/email"
+        android:inputType="textEmailAddress"
+        android:padding="8dp"/>
+
+    <View
+        android:id="@+id/lineEmail"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@+id/edtEmail"
+        android:layout_alignStart="@+id/edtEmail"
+        android:layout_alignEnd="@+id/edtEmail"
+        android:layout_marginStart="50dp"
+        android:background="@color/black" />
+
+    <EditText
+        android:id="@+id/edtPassword"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/lineEmail"
+        android:layout_alignStart="@+id/edtEmail"
+        android:layout_marginTop="16dp"
+        android:layout_toStartOf="@+id/btnForgot"
+        android:padding="8dp"
+        android:autofillHints="password"
+        android:background="@android:color/transparent"
+        android:drawableStart="@drawable/icon_lock"
+        android:drawablePadding="16dp"
+        android:hint="@string/password"
+        android:inputType="textPassword"/>
+
+    <Button
+        android:id="@+id/btnForgot"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/edtPassword"
+        android:layout_alignBottom="@+id/edtPassword"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="16dp"
+        android:background="@android:color/transparent"
+        android:text="@string/forgot"
+        android:textColor="@color/colorPrimary"
+        android:textSize="16sp" />
+
+    <View
+        android:id="@+id/linePassword"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@+id/edtPassword"
+        android:layout_alignStart="@+id/edtPassword"
+        android:layout_alignEnd="@+id/edtPassword"
+        android:layout_marginStart="50dp"
+
+        android:background="@color/black" />
+
+    <LinearLayout
+        android:id="@+id/layoutButton"
+        style="?android:attr/buttonBarStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/linePassword"
+        android:layout_alignStart="@+id/edtEmail"
+        android:layout_alignEnd="@+id/btnForgot"
+        android:layout_marginTop="16dp"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/btnSignIn"
+            style="?android:attr/buttonBarButtonStyle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:layout_weight="1"
+            android:background="@color/colorPrimary"
+            android:text="@string/sign_in"
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            app:backgroundTint="@null" />
+
+        <Button
+            android:id="@+id/btnSignUp"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_weight="1"
+            android:background="@drawable/bg_green_border_button"
+            android:text="@string/sign_up"
+            android:textColor="@color/colorPrimary"
+            android:textSize="16sp"
+            app:backgroundTint="@null" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/btnSignInFacebook"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/layoutButton"
+        android:layout_alignStart="@+id/layoutButton"
+        android:layout_marginTop="16dp"
+        android:drawableStart="@drawable/icon_facebook"
+        android:drawablePadding="12dp"
+        android:gravity="center_vertical"
+        android:text="@string/sign_in_with_facebook"
+        android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/btnSignInGoogle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/btnSignInFacebook"
+        android:layout_alignStart="@+id/btnSignInFacebook"
+        android:layout_marginTop="16dp"
+        android:drawableStart="@drawable/icon_google"
+        android:drawablePadding="12dp"
+        android:gravity="center_vertical"
+        android:text="Sign In with Google"
+        android:textSize="16sp" />
+
+    <ImageView
+        android:id="@+id/ivDish2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/btnSignInGoogle"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginTop="8dp"
+        android:src="@drawable/dish_2"
+        android:scaleType="fitStart"/>
+</RelativeLayout>
