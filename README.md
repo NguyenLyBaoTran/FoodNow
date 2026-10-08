@@ -1,53 +1,46 @@
 # FoodNow
 
-FoodNow is a food ordering system developed with an **Android application, FastAPI REST API, MySQL database, and Admin Web**.
-
-The system supports three main roles: **Customer, Driver, and Admin**.
-
----
+FoodNow is a food ordering and delivery demo built with **Android (Java/XML)**, **FastAPI (Python)**, **MySQL 8.0**, and an **Admin Web** interface. It supports three roles: **Customer, Driver, and Admin**.
 
 ## Table of Contents
 
 - [System Overview](#system-overview)
 - [Technology Stack](#technology-stack)
-- [How to Run](#how-to-run)
+- [Requirements](#requirements)
+- [Installation and Setup](#installation-and-setup)
 - [Android Configuration](#android-configuration)
 - [Demo Accounts](#demo-accounts)
 - [Demo Flow](#demo-flow)
 - [Quick Start](#quick-start)
-
----
+- [Notes](#notes)
 
 ## System Overview
 
 | Component | Description |
 |---|---|
-| Customer App | Browse restaurants, order food, and track orders |
-| Driver App | Receive orders and manage deliveries |
-| Admin Web | Manage system data and monitor orders |
-| Backend | Provides REST APIs using FastAPI |
-| Database | Stores application data using MySQL |
+| Customer Android App | Browse restaurants, order food, and track orders |
+| Driver Android App | Accept orders and update delivery status |
+| Admin Web | View and manage system data |
+| FastAPI Backend | REST APIs, authentication, and business logic |
+| MySQL Database | Stores users, restaurants, foods, orders, and payments |
 
 ### Architecture
 
 ```text
 Customer / Driver Android App
-              |
-           Retrofit
-              |
-              v
-        FastAPI Backend
-              |
-          SQLAlchemy
-              |
-              v
-         MySQL Database
-
-
-Admin Web  ──────>  FastAPI Backend
+          |
+    Retrofit (JSON)
+          |
+          v
+     FastAPI Backend <----- Admin Web (HTML/CSS/JavaScript)
+          |
+      SQLAlchemy
+          |
+          v
+      MySQL 8.0
 ```
 
----
+The Admin Web is served by FastAPI. **PHP, phpMyAdmin, XAMPP, and Apache are not required.**
 
 ## Technology Stack
 
@@ -55,148 +48,155 @@ Admin Web  ──────>  FastAPI Backend
 |---|---|
 | Android | Java + XML |
 | Networking | Retrofit + OkHttp |
-| Backend | FastAPI |
+| Backend | Python + FastAPI |
 | ORM | SQLAlchemy |
 | Database | MySQL 8.0 |
 | Authentication | JWT |
 | Admin Web | HTML + CSS + JavaScript |
 | Gradle JVM | JDK 17 |
+| Android Java compatibility | Java 11 |
 
----
+## Requirements
 
-# How to Run
+For a new **Windows** computer, install:
 
-## 1. Start MySQL
+1. **Git** — to clone the repository (or download the GitHub ZIP).
+2. **Python 3.13** — to run the FastAPI backend.
+3. **MySQL Server 8.0** — to store application data.
+4. **Android Studio + JDK 17** — to build and run the Android application.
+5. **MySQL Workbench** (optional) — to inspect and manage the database.
 
-Make sure **MySQL 8.0** is running and the `foodnow` database is available.
+## Installation and Setup
 
-Backend configuration is stored in:
+### 1. Download the project
 
-```text
-backend/.env
+```powershell
+git clone https://github.com/NguyenLyBaoTran/FoodNow.git
+cd FoodNow
 ```
 
-Example database configuration:
+Alternatively, use **GitHub → Code → Download ZIP**, extract it, and open the `FoodNow` folder. Private repositories require GitHub access permission.
+
+### 2. Prepare MySQL
+
+Start **MySQL Server 8.0** and create the database:
+
+```sql
+CREATE DATABASE IF NOT EXISTS foodnow
+CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+```
+
+You can run this SQL in MySQL Workbench or the MySQL command-line client. Use the MySQL username and password configured on your computer.
+
+### 3. Configure the backend environment
+
+Open PowerShell in the project root:
+
+```powershell
+cd backend
+Copy-Item .env.example .env
+```
+
+Open `backend/.env` and set the required values using `backend/.env.example` as the reference. For example, if the backend uses this database URL format:
 
 ```env
 DATABASE_URL=mysql+pymysql://root:YOUR_PASSWORD@127.0.0.1:3306/foodnow?charset=utf8mb4
 ```
 
-Replace `YOUR_PASSWORD` with your local MySQL password.
+Replace `YOUR_PASSWORD` with your MySQL password. Make sure the actual configuration keys and database driver match the project's `backend/.env.example` and `backend/requirements.txt`.
 
----
+**Do not commit or share `backend/.env`.**
 
-## 2. Start the Backend
+### 4. Install Python dependencies
 
-Open a terminal from the FoodNow project directory:
-
-```powershell
-cd backend
-```
-
-Activate the virtual environment:
+In the `backend` directory:
 
 ```powershell
-.\.venv\Scripts\Activate.ps1
+python -m venv .venv
+.\.venv\Scripts\python.exe -m pip install -r requirements.txt
 ```
 
-Install dependencies if needed:
+This creates a new virtual environment on the computer; no existing `.venv` is needed.
+
+### 5. Initialize and seed the database
+
+The repository includes:
+
+```text
+backend/init_db.py
+backend/seed/seed_data.py
+```
+
+Run the database initialization script and then the seed script **using the invocation supported by their imports and instructions**. These scripts must be executed before demo accounts and sample restaurants/orders can be expected to exist. If necessary, inspect `backend/README.md` and the scripts to confirm their exact commands.
+
+**Do not run `backend/reset_db.py` on a database containing data you want to keep.**
+
+### 6. Start FastAPI
+
+Still in `backend`:
 
 ```powershell
-pip install -r requirements.txt
+.\.venv\Scripts\python.exe -m uvicorn app.main:app --host 0.0.0.0 --port 8002
 ```
-
-Start FastAPI:
-
-```powershell
-python -m uvicorn app.main:app --host 0.0.0.0 --port 8002
-```
-
-### Backend URLs
 
 | Service | URL |
 |---|---|
-| Backend | `http://127.0.0.1:8002` |
-| Swagger | `http://127.0.0.1:8002/docs` |
-| Health Check | `http://127.0.0.1:8002/health` |
-| Admin Web | `http://127.0.0.1:8002/admin/` |
+| Health Check | http://127.0.0.1:8002/health |
+| Swagger API Docs | http://127.0.0.1:8002/docs |
+| Admin Web | http://127.0.0.1:8002/admin/ |
 
-Keep the backend terminal running while using the Android application.
+Keep MySQL and the backend running while using FoodNow.
 
----
+## Android Configuration
 
-# Android Configuration
+Open the **FoodNow project root** in Android Studio and wait for Gradle Sync. Use **JDK 17** as the Gradle JVM; the Android Java source/target compatibility is **Java 11**.
 
-Open the FoodNow project in **Android Studio** and wait for Gradle Sync to finish.
-
-The project uses:
+Find the Retrofit base URL in:
 
 ```text
-Gradle JVM: JDK 17
-Android Java Compatibility: Java 11
+app/src/main/java/com/example/foodnow/network/RetrofitClient.java
 ```
 
-## Android Emulator
+### Android Emulator
 
-Set the Retrofit `BASE_URL` to:
+Use:
 
 ```java
-private static final String BASE_URL =
-        "http://10.0.2.2:8002/api/";
+private static final String BASE_URL = "http://10.0.2.2:8002/api/";
 ```
 
-Then select an emulator and run the `app` configuration.
+`10.0.2.2` lets the Android Emulator reach the backend on the computer.
 
-> `10.0.2.2` allows the Android Emulator to access the backend running on the host computer.
+### Physical Android Device
 
----
+1. Connect the Android phone and computer to the **same Wi-Fi network**.
+2. On the computer, run `ipconfig` and find the active network adapter's **IPv4 Address**.
+3. Update `BASE_URL` using that address. For example:
 
-## Physical Android Device
+```java
+private static final String BASE_URL = "http://192.168.1.48:8002/api/";
+```
 
-The Android phone and laptop must be connected to the **same Wi-Fi network**.
+The IP above is **only an example**. It must be replaced with the current computer's IPv4 address.
 
-### Step 1 — Find the laptop IPv4 address
+4. Open `http://<LAPTOP_IPV4>:8002/health` in the phone browser to check connectivity.
+5. Run the Android `app` configuration from Android Studio.
 
-Run:
+If the phone cannot reach `/health`, check that FastAPI is running with `--host 0.0.0.0`, both devices are on the same network, and Windows Firewall allows the connection.
+
+### Build APK
+
+From the project root:
 
 ```powershell
-ipconfig
+.\gradlew assembleDebug
 ```
 
-Find the IPv4 address of the active Wi-Fi adapter.
+Expected output: `BUILD SUCCESSFUL`.
 
-Example:
+## Demo Accounts
 
-```text
-192.168.1.48
-```
-
-### Step 2 — Configure Retrofit
-
-Replace the `BASE_URL` with the laptop IPv4 address:
-
-```java
-private static final String BASE_URL =
-        "http://192.168.1.48:8002/api/";
-```
-
-The IP address above is only an example. Use the current IPv4 address of the laptop.
-
-### Step 3 — Check the connection
-
-On the phone browser, open:
-
-```text
-http://<LAPTOP_IPV4>:8002/health
-```
-
-If the health endpoint works, run FoodNow from Android Studio.
-
-> A physical Android device must use the laptop IPv4 address instead of `10.0.2.2`.
-
----
-
-# Demo Accounts
+These accounts are available **after the demo seed data has been created successfully**.
 
 | Role | Email | Password |
 |---|---|---|
@@ -205,116 +205,52 @@ If the health endpoint works, run FoodNow from Android Studio.
 | Driver 1 | `driver1@foodnow.com` | `password123` |
 | Driver 2 | `driver2@foodnow.com` | `password123` |
 
----
+## Demo Flow
 
-# Demo Flow
-
-## Customer
+**Customer**
 
 ```text
-Login
-  ↓
-Home
-  ↓
-Restaurant & Menu
-  ↓
-Cart
-  ↓
-Checkout
-  ↓
-Place Order
-  ↓
-Order History
-  ↓
-Order Tracking
+Login → Home → Restaurant & Menu → Cart → Checkout
+→ Place Order → Order History → Order Tracking
 ```
 
-## Driver
+**Driver**
 
 ```text
-Login
-  ↓
-Available Orders
-  ↓
-Accept Order
-  ↓
-Active Delivery
-  ↓
-Update Delivery Status
-  ↓
-Complete Delivery
+Login → Available Orders → Accept Order
+→ Active Delivery → Update Status → Complete Delivery
 ```
 
-## Admin
-
-Open:
+**Admin**
 
 ```text
-http://127.0.0.1:8002/admin/
+Open http://127.0.0.1:8002/admin/
+→ Login → Dashboard → Orders / Users / Drivers / Restaurants / Foods
 ```
 
-Then follow:
+## Quick Start
 
-```text
-Login
-  ↓
-Dashboard
-  ↓
-Orders / Users / Drivers
-  ↓
-Restaurants / Foods
-```
-
----
-
-# Quick Start
-
-The recommended startup order is:
+Once the project has been installed, configured, and seeded:
 
 ```text
 1. Start MySQL
-        ↓
-2. Check backend/.env
-        ↓
-3. Start FastAPI
-        ↓
-4. Check /health
-        ↓
-5. Configure Android BASE_URL
-        ↓
-6. Run Android App
-        ↓
-7. Login using a demo account
+2. Start FastAPI (port 8002)
+3. Check http://127.0.0.1:8002/health
+4. Open the Admin Web or configure Android BASE_URL
+5. Run the Android app
+6. Sign in with a demo account
 ```
 
-### Backend
+Backend command (from `backend`):
 
 ```powershell
-cd backend
-.\.venv\Scripts\Activate.ps1
-python -m uvicorn app.main:app --host 0.0.0.0 --port 8002
+.\.venv\Scripts\python.exe -m uvicorn app.main:app --host 0.0.0.0 --port 8002
 ```
-
-### Android Build
-
-From the FoodNow root directory:
-
-```powershell
-.\gradlew assembleDebug
-```
-
-Expected result:
-
-```text
-BUILD SUCCESSFUL
-```
-
----
 
 ## Notes
 
-- Keep MySQL and FastAPI running while using FoodNow.
-- Use `10.0.2.2` when running with an Android Emulator.
-- Use the laptop IPv4 address when running on a physical Android device.
-- The physical phone and laptop must be on the same Wi-Fi network.
-- Electronic payment functions are used for demonstration purposes.
+- This is a **local educational demo**, not a publicly deployed service.
+- The Android app requires the FastAPI backend and MySQL database to be running.
+- For a physical phone, the computer and phone must be on the same Wi-Fi network.
+- Electronic payment functions are simulated for demonstration purposes.
+- The `.env` file and local virtual environment are intentionally excluded from GitHub.
